@@ -1,0 +1,66 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{ifpdf}
+\usepackage{hyperref}
+
+\title{Base de données de la rédaction d'un journal}
+\author{Théo Delalande-Delarbre \and Thomas Minier \and Benjamin Sientzoff}
+\date{\today}
+\ifpdf
+\hypersetup{
+    pdfauthor={Théo Delalande-Delarbre, Thomas Minier, Benjamin Sientzoff},
+    pdftitle={Base de données de la rédaction d'un journal},
+}
+\fi
+
+\begin{document}
+
+\maketitle
+\begin{center}
+    \includegraphics[scale=0.5]{images/wookie-hebdo.png}
+\end{center}
+%\vspace{15cm}
+\par{Université de Nantes - Licence 3 Informatique}
+\par{\textsc{X6I0050} Base de données 2}
+
+% sommaire sur une nouvelle page
+\newpage
+\tableofcontents
+
+\newpage
+
+\addcontentsline{toc}{section}{Introduction}
+\section*{Introduction}
+    \input{intro.tex}
+    
+\newpage
+
+\section{Base du projet}
+    \input{part1.tex}
+    
+\section{Conception de la base de données}	
+    \input{part2.tex}
+    
+\section{Procédures stockées, vues et \textit{triggers}}
+    \input{part3.tex}
+
+\section{Critique de la base données}
+    \input{part4.tex}
+
+\newpage
+
+%section* dans toc
+\addcontentsline{toc}{section}{Conclusion}
+\section*{Conclusion}
+    \input{conclu.tex}
+
+\newpage
+
+\listoffigures
+
+\end{document}
