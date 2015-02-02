@@ -1,6 +1,29 @@
 \subsection{Pourquoi décomposer la table ?}
-\paragraph{}{Il y a au début une unique table contenant une vingtaine d'attributs. Pour illustrer la redondance et les dépendances fonctionnelles, cet exemple de tuples ne sera centré que sur quelques attributs pour des raisons de lisibilité}
+\paragraph{}{Il y a au début une unique table contenant une vingtaine d'attributs. Pour illustrer la redondance et les dépendances fonctionnelles, cet exemple de \textit{tuples} ne sera centré que sur quelques attributs pour des raisons de lisibilité. LA figure \ref{bigtableex} présente un aperçu de notre \textit{big table}.}
 
+\begin{figure}
+\label{bigtableex}
+    {
+	\centering
+    \begin{tabular}{|l|l|l|l|l|l|l|l|}
+        \hline idArt & titreArt & idJrnal & typeJrnal & idCont & nomCont & nomPers & nomMetier \\ 
+        \hline 1 & Les pieuvres & 1 & Hebdo & 1 & Photo & Bertrand & Photographe \\ 
+        \hline 1 & Les pieuvres & 1 & Hebdo & 2 &Texte & Nadine & Redacteur \\ 
+        \hline 2 & Manger du sel & 1 & Hebdo & 3 & Schéma & Yves & Infographie \\ 
+        \hline 2 & Manger du sel & 1 & Hebdo & 4 & Texte & Nadine & Redacteur \\ 
+        \hline 3 & Critique film & 1 & Hebdo & 5 & Texte & Manon & Critique \\ 
+        \hline 4 & Des poissons & 3 & HS & 6 & Texte & Nadine & Redacteur \\ 
+        \hline 2 & Manger du sel & 3 & HS & 1 & Schéma & Yves & Infographie \\ 
+        \hline 2 & Manger du sel & 3 & HS & 2 & Texte & Nadine & Redacteur \\ 
+        \hline 
+    \end{tabular}
+    }
+\caption{Exemple de \textit{tuples} dans la \textit{big table} (vue partielle)}
+\end{figure} 
+
+\paragraph{}{On remarque qu'il a une répétition des données relatives au journal ou au contenu : un contenu a toujours les mêmes ID, nom et auteur associé. Les journaux d'un même ID ont leur type en commun, de même pour les IDs d'es articles et leurs titres. Enfin, les personnes ont toujours le même métier. On peut avoir une perte d'information du fait de cette configuration car si l'on supprime par exemple tous les contenus créés par une personne, on perd les données qui lui sont associées, à savoir son nom, son prénom, son numéro, etc.}
+
+\paragraph{}{De ce fait, en prenant en compte tous les attributs nous avons dégagé un ensemble de dépendances fonctionnelles entre ceux-ci.}
 
 \begin{figure}
 	\label{sch_df}
@@ -27,19 +50,24 @@
 }
 
 \subsection{Algorithme de Bernstein}
-\paragraph{}{Une fois nos dépendances fonctionnelles établies, nous commençons par appliquer l'algorithme de Bernstein pour décomposer notre grande table. Tout d'abord, nous déterminons la couverture minimale. On utilisera la clé suivante : \{idJournal, idArticle, idContenu\}. }
+\paragraph{}{Une fois nos dépendances fonctionnelles établies, nous commençons par appliquer l'algorithme de Bernstein pour décomposer notre grande table. Tout d'abord, nous déterminons sa couverture minimale. Pour cela, on utilise la clé \{idJournal, idArticle, idContenu\}.
+}
 
-\paragraph{}{Les relations (1), (4), (5), (6) et (7) ne sont pas en forme élémentaires, nous les décomposons donc. De plus, à part la relation (8), toutes les autres relations sont qu'un seul attributs à gauche. il n'est donc pas nécessaire de calculer la fermeture de ces attributs. Il est cependant nécessaire de le faire pour la relation (8).}
+\paragraph{}{
+    Les dépendances (1), (4), (5), (6) et (7) ne sont pas élémentaires, nous avons donc les décomposer. Toutes les relations n'ont qu'un seul attributs à gauche, il n'est donc pas nécessaire de calculer la fermeture de ces attributs. Mais il est cependant nécessaire de le faire pour la dépendance (8) qui a plus d'un attribut en partie gauche.
+    }
 
-\paragraph{}{Calcul de la fermeture des attributs en partie gauche de la relation (8) :
+\paragraph{}{
+    Calcul de la fermeture des attributs en partie gauche de la dépendance fonctionnelle (8) :
+}
 \begin{itemize}
-\item $idArticle+ = \{dateRedac, titreArt, resumeArticle\}$ 
-\item $idPers+ = \{nomPers, numTel, prenom, idMetier, nomMetier, salaireBase\}$
-\item $dateParu+ = \{\}$
-\end{itemize} }
+    \item $idArticle+ = \{dateRedac, titreArt, resumeArticle\}$
+    \item $idPers+ = \{nomPers, numTel, prenom, idMetier, nomMetier, salaireBase\}$
+    \item $dateParu+ = \{\}$
+\end{itemize}
 
-\paragraph{}{Étant donné qu'aucun élément de chacune des trois fermetures n'apparaît en partie gauche de la relation (8), cette dernière peut être gardée telle quelle.}
-\paragraph{}{Au final, la couverture minimale est la suivante :
+\paragraph{}{Comme aucun élément des trois fermetures n'apparaît en partie gauche de la dépendance (8), cette dernière n'a pas besoin d'être modifiée.}
+\paragraph{Couverture minimale}{
 \begin{enumerate}
     \item[(1.1)] idJournal $\rightarrow$ prix
     \item[(1.2)] idJournal $\rightarrow$ nbTirage
@@ -64,58 +92,71 @@
     \item[(8)] idArticle, idPers, dateParu $\rightarrow$ idJournal
 \end{enumerate}}
 
-\paragraph{}{Nous créons ensuite nos groupes, en regroupant les dépendances ayant même partie gauche dans chaque groupe :
-\begin{enumerate}
-    \item[(1)] $DF_1 = \{ (1.1), (1.2), (1.3), (1.4), (1.5), (1.6) \}$
-    \item[(2)] $DF_2 = \{ (2) \}$
-    \item[(3)] $DF_3 = \{ (3) \}$
-    \item[(4)] $DF_4 = \{ (4.1), (4.2), (4.3) \}$
-    \item[(5)] $DF_5 = \{ (5.1), (5.2), (5.3) \}$
-    \item[(6)] $DF_6 = \{ (6.1), (6.2), (6.3), (6.4) \}$
-    \item[(7)] $DF_7 = \{ (7.1), (7.2) \}$
-    \item[(8)] $DF_8 = \{ (8) \}$
-\end{enumerate}}
-
-\paragraph{}{Puis, nous construisons un schéma $<R_i(U_i),DF_i>$ pour chaque groupe $DF_i$, où $U_i$ est l'ensemble des attributs apparaissant dans $DF_i$ :
-\begin{enumerate}
-    \item[(1)] $<R_1(idJournal, nbTirage, idUne, idType, redacChef, dateParu), DF_1>$
-    \item[(2)] $<R_2(idType, nomType),DF_2>$
-    \item[(3)] $<R_3(idUne, idJournal),DF_3>$
-    \item[(4)] $<R_4(idArticle, dateRedac, titreArt, resumeArt),DF_4>$
-    \item[(5)] $<R_5(idContenu, URL, titreCont, typeCont),DF_5>$
-    \item[(6)] $<R_6(idPers, nomPers, prenom, numTel, idMetier),DF_6>$
-    \item[(7)] $<R_7(idMetier, salaireBase, nomMetier),DF_7>$
-    \item[(8)] $<R_8(idArticle, idPers, dateParu, idJournal),DF_8>$
-\end{enumerate}}
-
-\paragraph{}{Pour terminer, comme la clé entière n'est présente dans aucun schéma, on rajoute un dernier schéma de la forme : $<R_9(idJournal, idArticle, idContenu), \{\}>$}
-
-\paragraph{}{Nous obtenons donc, par application de l'algorithme de Bernstein, un ensemble de relations \textit{spi}, \textit{spdf} et en 3ème forme normale.}
- 
-\subsection{Algorithme de décomposition}
 \paragraph{}{
-On considère la relation de départ : \\
-$R (idJournal, idContenu, idArticle, titreCont, typeCont, URL, dateRedac, \\
-titreArt, resumeArticle, idPers, nomPers, numTel, prenom, idMetier,\\ salaireBase, nomMetier, dateParu, idUne, nbTirage, prix, \\
-redacChef,  idType, nomType), \\
-DF= \{(1),(2),(3),....(8)\}$
+    Nous regroupons maintenant les dépendances ayant même partie gauche comme ci-dessous.
+}
+\begin{enumerate}
+    \item[(1)] $DF_{1} = \{ (1.1), (1.2), (1.3), (1.4), (1.5), (1.6) \}$
+    \item[(2)] $DF_{2} = \{ (2) \}$
+    \item[(3)] $DF_{3} = \{ (3) \}$
+    \item[(4)] $DF_{4} = \{ (4.1), (4.2), (4.3) \}$
+    \item[(5)] $DF_{5} = \{ (5.1), (5.2), (5.3) \}$
+    \item[(6)] $DF_{6} = \{ (6.1), (6.2), (6.3), (6.4) \}$
+    \item[(7)] $DF_{7} = \{ (7.1), (7.2) \}$
+    \item[(8)] $DF_{8} = \{ (8) \}$
+\end{enumerate}
+
+\paragraph{}{
+    On construis à présent les schémas $<R_{i}(U_{i}), DF_{i}>$ pour chaque $DF_{i}$, où $U_{i}$ est l'ensemble des attributs apparaissant dans $DF_{i}$.
+}
+\begin{enumerate}
+    \item[(1)] $<R_{1}(idJournal, nbTirage, idUne, idType, redacChef, dateParu), DF_{1}>$
+    \item[(2)] $<R_{2}(idType, nomType),DF_{2}>$
+    \item[(3)] $<R_{3}(idUne, idJournal),DF_{3}>$
+    \item[(4)] $<R_{4}(idArticle, dateRedac, titreArt, resumeArt),DF_{4}>$
+    \item[(5)] $<R_{5}(idContenu, URL, titreCont, typeCont),DF_{5}>$
+    \item[(6)] $<R_{6}(idPers, nomPers, prenom, numTel, idMetier),DF_{6}>$
+    \item[(7)] $<R_{7}(idMetier, salaireBase, nomMetier),DF_{7}>$
+    \item[(8)] $<R_{8}(idArticle, idPers, dateParu, idJournal),DF_{8}>$
+\end{enumerate}
+
+\paragraph{}{
+    Pour terminer, comme la clé entière n'étant pas présente dans le schéma, on l'ajoute le schéma suivant $<R_{9}(idJournal, idArticle, idContenu), \{\}>$.
 }
 
 \paragraph{}{
-On décompose la relation avec l'algorithme. Plusieurs résultats sont possibles : dans cette exécution nous avons arbitrairement choisi l'ordre nous permettant de conserver les sous-ensembles les plus proches de la réalité de notre table.
-Les tables obtenues sont celles-ci :
+    Après avoir appliquer de l'algorithme de Bernstein sur notre table de départ neuf relations. Ce schéma est sans perte d'informations, sans perte de dépendances fonctionnelles et est en troisième forme normale.
+}
 
-$R_1(idMetier, salaireBase, nomMetier), DF_1=\{(7)\}$
+\paragraph{}{
+    Mais qu'en est-il pour l'algorithme de décomposition ? Donne-t il le même résultat?
+}
 
-$R_{1.1}(idType, nomType), DF_{1.1}=\{(2)\}$
+\subsection{Algorithme de décomposition}
+\paragraph{}{
+    On considère la relation de départ \\
+$R (idJournal, idContenu, idArticle, titreCont, typeCont, URL, dateRedac, \\
+titreArt, resumeArticle, idPers, nomPers, numTel, prenom, idMetier,\\ 
+salaireBase, nomMetier, dateParu, idUne, nbTirage, prix, \\
+redacChef,  idType, nomType)$ avec les dépendances fonctionnelles énumérées au début de ce rapport, 
+$DF = \{(1),(2),(3), ... ,(8)\}$.
+}
 
-$R_{2.1}(idPers, nomPers, prenom, numTel, idMetier), DF_{2.1}=\{(6)\}$
+\paragraph{}{
+    On décompose la relation avec l'algorithme de décomposition vu en cours. Plusieurs résultats sont possibles. Dans cette exécution nous avons arbitrairement choisi l'ordre nous permettant de conserver les sous-ensembles les plus proches de la réalité de notre table. Les tables obtenues sont celles-ci :
+}    
+    
+\begin{enumerate}
+    \item[(1)] $R_1(idMetier, salaireBase, nomMetier), DF_1=\{(7)\}$
+    \item[(2)] $R_{1.1}(idType, nomType), DF_{1.1}=\{(2)\}$
+    \item[(3)] $R_{2.1}(idPers, nomPers, prenom, numTel, idMetier), DF_{2.1}=\{(6)\}$
+    \item[(4)] $R_{3.1}(idContenu, URL, idPers, titreCont, typeCont), DF_{3.1}=\{(5)\}$
+    \item[(5)] $R_{4.1}(idJournal, idUne, nbTirage, prix, redacChef, idType, dateParu), \\DF_{4.1}=\{(41)\}$
+    \item[(6)] $R_{5.1}(idArticle, dateRedac, titreArt, resumeArticle), DF_{5.1}=\{(4)\}$
+    \item[(7)] $R_{5.2}(idJournal, idUne, nbTirage, prix, redacChef, idType, dateParu), \\DF_{5.2}=\{(1)\}$
+\end{enumerate}
 
-$R_{3.1}(idContenu, URL, idPers, titreCont, typeCont), DF_{3.1}=\{(5)\}$
-
-$R_{4.1}(idJournal, idUne, nbTirage, prix, redacChef, idType, dateParu), \\DF_{4.1}=\{(41)\}$
-
-$R_{5.1}(idArticle, dateRedac, titreArt, resumeArticle), DF_{5.1}=\{(4)\}$
-
-$R_{5.2}(idJournal, idUne, nbTirage, prix, redacChef, idType, dateParu), \\DF_{5.2}=\{(1)\}$
+\paragraph{Choix du schéma}{
+    Nous venons de voir deux décompositions différentes de notre table de départ. Il faut à présent choisir l'une des deux pour l'exploitation de nos données dans un système de gestion de base de données. \newline
+    Nous choisissons le résultat de l'algorithme de Bernstein car nous avons obtenu une décomposition sans perte d'information, sans perte de dépendances fonctionnelles et en troisième forme normale contrairement au second algorithme. Mais ce choix reste à approfondir en considérant quelles requêtes seront les plus fréquentes dans notre base de données. On se donne un peu plus de temps pour adopter le choix le plus judicieux. 
 }
