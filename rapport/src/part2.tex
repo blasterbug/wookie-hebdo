@@ -110,7 +110,7 @@
     On construis à présent les schémas $<R_{i}(U_{i}), DF_{i}>$ pour chaque $DF_{i}$, où $U_{i}$ est l'ensemble des attributs apparaissant dans $DF_{i}$.
 }
 \begin{enumerate}
-    \item[(1)] $<R_{1}(idJournal, nbTirage, idUne, idType, redacChef, dateParu, prix, nbTirages), DF_{1}>$
+    \item[(1)] $<R_{1}(idJournal, nbTirage, idUne, idType, redacChef, dateParu), DF_{1}>$
     \item[(2)] $<R_{2}(idType, nomType),DF_{2}>$
     \item[(3)] $<R_{3}(idUne, idJournal),DF_{3}>$
     \item[(4)] $<R_{4}(idArticle, dateRedac, titreArt, resumeArt),DF_{4}>$
@@ -151,9 +151,9 @@ $DF = \{(1),(2),(3), ... ,(8)\}$.
     \item[(2)] $R_{1.1}(idType, nomType), DF_{1.1}=\{(2)\}$
     \item[(3)] $R_{2.1}(idPers, nomPers, prenom, numTel, idMetier), DF_{2.1}=\{(6)\}$
     \item[(4)] $R_{3.1}(idContenu, URL, idPers, titreCont, typeCont), DF_{3.1}=\{(5)\}$
-    \item[(5)] $R_{4.1}(idJournal, idUne, nbTirage, prix, redacChef, idType, dateParu), \\DF_{4.1}=\{(1)\}$
+    \item[(5)] $R_{4.1}(idJournal, idUne, nbTirage, prix, redacChef, idType, dateParu), \\DF_{4.1}=\{(41)\}$
     \item[(6)] $R_{5.1}(idArticle, dateRedac, titreArt, resumeArticle), DF_{5.1}=\{(4)\}$
-    \item[(7)] $R_{5.2}(idJournal, idArticle, idContenu), \\DF=\{\}$
+    \item[(7)] $R_{5.2}(idJournal, idUne, nbTirage, prix, redacChef, idType, dateParu), \\DF_{5.2}=\{(1)\}$
 \end{enumerate}
 
 \paragraph{Choix du schéma}{
