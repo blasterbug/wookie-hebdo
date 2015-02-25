@@ -2,5 +2,5 @@
 
 CREATE OR REPLACE VIEW Maquettistes AS
 	SELECT nomPers, prenom, numTel
-	FROM Personnes NATURAL JOIN Metiers
+	FROM Personnes
 	WHERE idMetier = 7;

@@ -25,7 +25,7 @@ BEGIN
 	-- Insertion de la personne dans Personnes
 	sql_stmt := 'INSERT INTO Personnes
 				VALUES (:id_pers , :nom_pers , :prenom , :num_tel , :id_metier)';
-	EXECUTE IMMEDIATE sql_stmt USING id_pers, nom_pers, num_tel, id_metier;
+	EXECUTE IMMEDIATE sql_stmt USING id_pers, nom_pers, prenom, num_tel, id_metier;
 
 EXCEPTION
 	WHEN id_metier_inexistant_exception THEN

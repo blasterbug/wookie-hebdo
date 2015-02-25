@@ -2,5 +2,5 @@
 
 CREATE OR REPLACE VIEW Redacteurs AS
 	SELECT nomPers, prenom, numTel
-	FROM Personnes NATURAL JOIN Metiers
+	FROM Personnes
 	WHERE idMetier = 2;
