@@ -39,6 +39,7 @@ CREATE TABLE contenus
   titreCont VARCHAR2(100) NOT NULL,
   typeContenu VARCHAR2(50) NOT NULL,
   auteur VARCHAR2(8) NOT NULL,
+  dateContenu date,
   CONSTRAINT CSTR_AUTEUR_IDPERS
     FOREIGN KEY (auteur) REFERENCES Personnes(idPers)
 );
