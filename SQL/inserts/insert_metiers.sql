@@ -1,9 +1,8 @@
-create sequence seqmetiers;
-insert into metiers values (seqmetiers.nextval, 'redacteur en chef', 3000);
-insert into metiers values (seqmetiers.nextval, 'redacteur', 1900);
-insert into metiers values (seqmetiers.nextval, 'pigiste', 1500);
-insert into metiers values (seqmetiers.nextval, 'secretaire de redaction', 1800);
-insert into metiers values (seqmetiers.nextval, 'photographe', 1800);
-insert into metiers values (seqmetiers.nextval, 'illustrateur', 1800);
-insert into metiers values (seqmetiers.nextval, 'maquettiste', 1800);
-insert into metiers values (seqmetiers.nextval, 'expert', 1800);
+insert into metiers values (seqmetiers.nextval, 'redacteur en chef', 1);
+insert into metiers values (seqmetiers.nextval, 'redacteur', 2);
+insert into metiers values (seqmetiers.nextval, 'pigiste', 3);
+insert into metiers values (seqmetiers.nextval, 'secretaire de redaction', 4);
+insert into metiers values (seqmetiers.nextval, 'photographe', 5);
+insert into metiers values (seqmetiers.nextval, 'illustrateur', 6);
+insert into metiers values (seqmetiers.nextval, 'maquettiste', 7);
+insert into metiers values (seqmetiers.nextval, 'expert', 8);
