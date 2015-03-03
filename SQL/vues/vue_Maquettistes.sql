@@ -1,6 +1,6 @@
 -- Vue permettant d'obtenir tous les maquettistes
 
 CREATE OR REPLACE VIEW Maquettistes AS
-	SELECT nomPers, prenom, numTel
+	SELECT idPers, nomPers, prenom, numTel
 	FROM Personnes
 	WHERE idMetier = 7;
