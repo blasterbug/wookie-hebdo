@@ -1,6 +1,7 @@
 -- Script installant le projet sur une base Oracle
 
 spool logs_install_wookie_hebdo.lst
+prompt Création de la base de données
 
 -- Création des tables
 @create_table.sql
