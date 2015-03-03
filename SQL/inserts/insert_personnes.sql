@@ -178,5 +178,3 @@ VALUES
   0194199551,
   3
 );
-
-select * from personnes;
