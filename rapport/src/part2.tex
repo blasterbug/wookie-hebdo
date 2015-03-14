@@ -1,5 +1,5 @@
 \subsection{Pourquoi décomposer la table ?}
-\paragraph{}{Il y a au début une unique table contenant une vingtaine d'attributs. Pour illustrer la redondance et les dépendances fonctionnelles, cet exemple de \textit{tuples} ne sera centré que sur quelques attributs pour des raisons de lisibilité. LA figure \ref{bigtableex} présente un aperçu de notre \textit{big table}.}
+\paragraph{}{Il y a au début une unique table contenant une vingtaine d'attributs. Pour illustrer la redondance et les dépendances fonctionnelles, cet exemple de \textit{tuples} ne sera centré que sur quelques attributs pour des raisons de lisibilité. La figure \ref{bigtableex} présente un aperçu de notre \textit{big table}.}
 
 \begin{figure}
 \label{bigtableex}
@@ -21,9 +21,9 @@
 \caption{Exemple de \textit{tuples} dans la \textit{big table} (vue partielle)}
 \end{figure} 
 
-\paragraph{}{On remarque qu'il a une répétition des données relatives au journal ou au contenu : un contenu a toujours les mêmes ID, nom et auteur associé. Les journaux d'un même ID ont leur type en commun, de même pour les IDs d'es articles et leurs titres. Enfin, les personnes ont toujours le même métier. On peut avoir une perte d'information du fait de cette configuration car si l'on supprime par exemple tous les contenus créés par une personne, on perd les données qui lui sont associées, à savoir son nom, son prénom, son numéro, etc.}
+\paragraph{}{On remarque qu'il a une répétition des données relatives au journal ou au contenu : un contenu a toujours les mêmes ID, nom et auteur associé. Les journaux d'un même ID ont leur type en commun, de même pour les IDs des articles et leurs titres. Enfin, les personnes ont toujours le même métier. On peut avoir une perte d'information du fait de cette configuration car si l'on supprime par exemple tous les contenus créés par une personne, on perd les données qui lui sont associées, à savoir son nom, son prénom, son numéro, etc.}
 
-\paragraph{}{De ce fait, en prenant en compte tous les attributs nous avons dégagé un ensemble de dépendances fonctionnelles entre ceux-ci.}
+\paragraph{}{De ce fait, en prenant en compte tous les attributs nous avons dégagé un ensemble de dépendances fonctionnelles.}
 
 \begin{figure}
 	\label{sch_df}
@@ -46,7 +46,7 @@
 \end{enumerate}
 
 \paragraph{Clés}{
-    De ce schéma, on peut en déduire trois clés $\{idJournal, idArticle, idContenu\}$, $\{idUne, idArticle, idContenu\}$ et $\{dateParu, idContenu, idArticle\}$.
+    De ce schéma, on peut en déduire trois clés $\{idJournal, idArticle, idContenu\}$, $\{idUne, idArticle, idContenu\}$ et $\{dateParu, idContenu, idArticle\}$. Ces ensembles d'attributs sont des clés, car ils déterminent l'ensemble des attributs.
 }
 
 \subsection{Algorithme de Bernstein}
@@ -54,7 +54,7 @@
 }
 
 \paragraph{}{
-    Les dépendances (1), (4), (5), (6) et (7) ne sont pas élémentaires, nous avons donc les décomposer. Toutes les relations n'ont qu'un seul attributs à gauche, il n'est donc pas nécessaire de calculer la fermeture de ces attributs. Mais il est cependant nécessaire de le faire pour la dépendance (8) qui a plus d'un attribut en partie gauche.
+    Les dépendances (1), (4), (5), (6) et (7) ne sont pas élémentaires, nous avons donc dû les décomposer. Toutes les relations n'ont qu'un seul attributs à gauche, il n'est donc pas nécessaire de calculer la fermeture de ces attributs. Mais il est cependant nécessaire de le faire pour la dépendance (8) qui a plus d'un attribut en partie gauche.
     }
 
 \paragraph{}{
@@ -107,7 +107,7 @@
 \end{enumerate}
 
 \paragraph{}{
-    On construis à présent les schémas $<R_{i}(U_{i}), DF_{i}>$ pour chaque $DF_{i}$, où $U_{i}$ est l'ensemble des attributs apparaissant dans $DF_{i}$.
+    On construit à présent les schémas $<R_{i}(U_{i}), DF_{i}>$ pour chaque $DF_{i}$, où $U_{i}$ est l'ensemble des attributs apparaissant dans $DF_{i}$.
 }
 \begin{enumerate}
     \item[(1)] $<R_{1}(idJournal, nbTirage, idUne, idType, redacChef, dateParu), DF_{1}>$
@@ -125,7 +125,7 @@
 }
 
 \paragraph{}{
-    Après avoir appliquer de l'algorithme de Bernstein sur notre table de départ neuf relations. Ce schéma est sans perte d'informations, sans perte de dépendances fonctionnelles et est en troisième forme normale.
+    Après avoir appliqué de l'algorithme de Bernstein sur notre table de départ, nous obtenons neuf relations. Ce schéma est sans perte d'informations, car la dernière relation permet de relier toutes les tables entre elles grâce à la clé, sans perte de dépendances fonctionnelles, car nous n'avons perdu aucune dépendance fonctionnelle par rapport au modèle de base et est en troisième forme normale, car l'algorithme nous le garantit.
 }
 
 \paragraph{}{
