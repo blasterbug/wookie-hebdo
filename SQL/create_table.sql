@@ -44,7 +44,7 @@ CREATE TABLE contenus
     FOREIGN KEY (auteur) REFERENCES Personnes(idPers)
 );
 
-CREATE TABLE Numeros
+CREATE TABLE numeros
 (
   idJournal NUMBER(8,0) NOT NULL PRIMARY KEY,
   idUne NUMBER(8,0) NOT NULL,
@@ -58,3 +58,13 @@ CREATE TABLE Numeros
     FOREIGN KEY (idType) REFERENCES typeJournal(idType)
 );
 
+CREATE TABLE compoArticles
+(
+  idArticle NUMBER(8,0) NOT NULL,
+  idContenu NUMBER(10,0) NOT NULL,
+  idJournal NUMBER(8,0) NOT NULL,
+  CONSTRAINTS CSTR_COMP_ARTICLE
+    FOREIGN KEY (idArticle) REFERENCES articles(idArticle),
+    FOREIGN KEY (idContenu) REFERENCES contenus(idContenu),
+    FOREIGN KEY (idJournal) REFERENCES numeros(idJournal)
+);

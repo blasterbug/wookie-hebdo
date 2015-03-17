@@ -1,4 +1,13 @@
 create sequence seqcontenu;
+
+/*ajout_contenu(nomp, prenomp, titre,url , typeC)*/
+ajout_contenu(
+  '', '' ,
+  '',
+  '',
+  ''
+);
+  
 insert into contenus 
 values (
   seqcontenu.nextval, 
