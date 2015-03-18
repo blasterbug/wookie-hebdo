@@ -8,4 +8,4 @@ BEGIN
 	-- Insertion de la personne avec l'id metier 1 ( = redac chef)
 	insert_personne(:new.idPers, :new.nomPers, :new.prenom, :new.numTel, 1);
 
-END; /
+END;

@@ -11,6 +11,6 @@ PROCEDURE AJOUT_CONTENU
 lidpers personnes.idpers%type;
 BEGIN
   select idpers into lidpers from personnes where nompers=lnompers and prenom=lprenomperso;
-  insert into contenus values (seqcontenu.nextval, lurl, ltitre, ltype, lidpers);
+  insert into contenus values (seqcontenu.nextval, lurl, ltitre, ltype, lidpers,SYSDATE);
   insert into compoarticles values (larticle, seqcontenu.currval);
-END AJOUT_CONTENU; /
+END AJOUT_CONTENU;

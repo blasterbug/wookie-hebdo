@@ -8,4 +8,4 @@ BEGIN
 	-- Insertion de la personne avec l'id metier 3 ( = pigiste)
 	insert_personne(:new.idPers, :new.nomPers, :new.prenom, :new.numTel, 3);
 
-END; /
+END;

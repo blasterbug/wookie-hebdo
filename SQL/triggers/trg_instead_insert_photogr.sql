@@ -8,4 +8,4 @@ BEGIN
 	-- Insertion de la personne avec l'id metier 5 ( = photographe)
 	insert_personne(:new.idPers, :new.nomPers, :new.prenom, :new.numTel, 5);
 
-END; /
+END;

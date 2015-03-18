@@ -21,4 +21,4 @@ EXCEPTION
 	WHEN date_above_max_exception THEN
 		RAISE_APPLICATION_ERROR(-20001, 'dateRedac > date de demain');
 
-END; /
+END;

@@ -31,4 +31,4 @@ EXCEPTION
 	WHEN id_metier_inexistant_exception THEN
 		RAISE_APPLICATION_ERROR(-20002, 'id_metier inexistant');
 
-END insert_personne; /
+END insert_personne;

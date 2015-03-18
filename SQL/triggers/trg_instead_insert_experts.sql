@@ -8,4 +8,4 @@ BEGIN
 	-- Insertion de la personne avec l'id metier 8 ( = expert)
 	insert_personne(:new.idPers, :new.nomPers, :new.prenom, :new.numTel, 8);
 
-END; /
+END;

@@ -17,4 +17,4 @@ BEGIN
 				WHERE idJournal = :id';
 	EXECUTE IMMEDIATE sql_stmt USING dateParu, :old.idJournal;
 
-END; /
+END;

@@ -8,4 +8,4 @@ BEGIN
 	-- Insertion de la personne avec l'id metier 7 ( = maquettiste)
 	insert_personne(:new.idPers, :new.nomPers, :new.prenom, :new.numTel, 7);
 
-END; /
+END;
