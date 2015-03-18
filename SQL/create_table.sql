@@ -23,6 +23,7 @@ CREATE TABLE personnes
   FOREIGN KEY ( idMetier ) REFERENCES metiers(idMetier)
 );
 
+create sequence seqarticle;
 CREATE TABLE articles
 (
   idArticle NUMBER(8,0) NOT NULL PRIMARY KEY,
@@ -31,6 +32,7 @@ CREATE TABLE articles
   resumeArticle VARCHAR2(2000)
 );
 
+create sequence seqcontenu;
 CREATE TABLE contenus
 (
   idContenu NUMBER(10,0) NOT NULL PRIMARY KEY,
