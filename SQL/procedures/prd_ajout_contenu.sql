@@ -13,4 +13,4 @@ BEGIN
   select idpers into lidpers from personnes where nompers=lnompers and prenom=lprenomperso;
   insert into personnes values (seqcontenu.nextval, lurl, ltitre, ltype, lidpers);
   insert into compoarticles values (larticle, seqcontenu.currval);
-END AJOUT_CONTENU;
+END AJOUT_CONTENU; /

@@ -3,12 +3,20 @@ spool logs_install_wookie_hebdo.lst
 prompt Création de la base de données
 
 -- Création des tables
+prompt Création des tables
 @create_table.sql
 
--- Création des tables
+-- Création des procédures
+prompt Création des procédures
 @procedures/prd_insert_personne.sql
+/
+@procedures/prd_ajout_article.sql
+/
+@procedures/prd_ajout_contenu.sql
+/
 
 -- Création des vues
+prompt Création des vues
 @vues/vue_RedacsChef.sql
 @vues/vue_Pigistes.sql
 @vues/vue_SecrRedac.sql
@@ -20,21 +28,34 @@ prompt Création de la base de données
 @vues/personnes_metiers.sql
 
 -- Création des triggers
+prompt Création des triggers
 @triggers/trg_check_insert_update_dateRedac.sql
+/
 @triggers/trg_insert_update_dateParu.sql
+/
 @triggers/trg_instead_insert_experts.sql
+/
 @triggers/trg_instead_insert_redacsChef.sql
+/
 @triggers/trg_instead_insert_redacs.sql
+/
 @triggers/trg_instead_insert_pigistes.sql
+/
 @triggers/trg_instead_insert_secrRedac.sql
+/
 @triggers/trg_instead_insert_photogr.sql
+/
 @triggers/trg_instead_insert_illustr.sql
+/
 @triggers/trg_instead_insert_maquet.sql
+/
 
 -- Insertion des données
-@inserts/insert_personnes.sql
+prompt Insertion des données
 @inserts/insert_metiers.sql
-@inserts/insert_seqcontenu.sql
+@inserts/insert_personnes.sql
 @inserts/insert_typejournal.sql
+@inserts/insert_seqcontenu.sql
 
+prompt Création de la base de données terminée
 spool off

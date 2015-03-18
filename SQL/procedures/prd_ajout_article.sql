@@ -6,4 +6,4 @@ PROCEDURE AJOUT_ARTICLE
 ) IS 
 BEGIN
   insert into articles values (seqarticle.nextval, SYSDATE, ltitre, lresume);
-END AJOUT_ARTICLE;
+END AJOUT_ARTICLE; /
