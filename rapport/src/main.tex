@@ -1,4 +1,4 @@
-\documentclass[a4paper]{article}
+\documentclass[a4paper,oneside]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[frenchb]{babel}
@@ -7,10 +7,15 @@
 \usepackage{tikz}
 \usepackage{ifpdf}
 \usepackage{hyperref}
+\usepackage{listings}
+
+% on utilise du SQL !
+\lstset{language=SQL} 
 
 \title{Base de données de la rédaction d'un journal}
 \author{Théo Delalande-Delarbre \and Thomas Minier \and Benjamin Sientzoff}
 \date{\today}
+
 \ifpdf
 \hypersetup{
     pdfauthor={Théo Delalande-Delarbre, Thomas Minier, Benjamin Sientzoff},

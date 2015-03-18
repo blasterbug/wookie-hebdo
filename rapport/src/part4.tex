@@ -1,2 +1,31 @@
+%% Critique de la base données
+\subsection{Droits d'accès à la base de données}
+
+\paragraph{}{
+    Comme nous travaillons à trois sur la base de données, il a fallut que les autres membres de l'équipe puissent voir et avoir accès à ce qu'a fait un autre membre. Pour cela, on a jouer avec  les droits d'accès de la base de données Oracle SQL. Pour simplifier la gestion des droits, on a créé toutes les tables sur un même compte, ce dernier attribuera ensuite des rôles précis à d'autres personnes.
+}
+\paragraph{}{
+    Typiquement pour notre projet, Nous avons deux rôles. Le rôle \verb|resp| et \verb|reader|. Un responsable (\verb|resp|) a tous les droits sur les tables du projet alors qu'un lecteur (\verb|reader|) n'a que le droit de consulter les tables. Le code PL/SQL ci-dessous donner un exemple d'accord de droits sur la table \verb|articles| des droits de sélection, mise à jour, insertion et suppression des données pour le rôle \verb|resp| au utilisateurs L3\_3 et L3\_13. L'utilisateur L3\_4 n'a que le droit de consulter la table \verb|articles|.
+}
+\begin{lstlisting}[frame=single]
+CREATE ROLE resp;
+CREATE ROLE reader;
+
+GRANT ALL ON articles TO resp;
+
+GRANT SELECT ON articles TO reader;
+
+GRANT resp TO L3_3, L3_13;
+GRANT reader TO L3_4;
+\end{lstlisting}
+
+\end{document}
+
+\paragraph{}{
+    On procède de même pour chaque table, à savoir \verb|contenus|, \verb|metiers|, \verb|numeros|, \verb|personnes| et \verb|typeJournal|.
+}
+%Pour pouvoir accéder aux différentes tables, procédures, etc. créé par une pers
+
 \subsection{Atouts}
+
 \subsection{Faiblesses et améliorations}
