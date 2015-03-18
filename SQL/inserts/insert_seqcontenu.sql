@@ -1,144 +1,45 @@
-create sequence seqcontenu;
+execute ajout_article('Tempête','Une tempête a fait de nombreux dégâts');
+execute ajout_article('Alpagas','Les animaux sont doués d''une intelligence collective poussée');
+execute ajout_article('Babel','Ete comme hiver, la destination qui monte');
+execute ajout_article('Tong','Ete comme hiver, l''accesoire mode qui monte');
+execute ajout_article('Risotto','La diégèse insoupçonnée du riz');
+execute ajout_article('Sous-marin','Tout va à vau-l''eau');
+execute ajout_article('Poulet','Une histoire émouvante');
 
-/*ajout_contenu(nomp, prenomp, titre,url , typeC)*/
-ajout_contenu(
-  '', '' ,
-  '',
-  '',
-  ''
-);
-  
-insert into contenus 
-values (
-  seqcontenu.nextval, 
-  'null', 
-  'Tempête dans les caïmans', 
-  'texte', 
-  2
-);
-insert into contenus 
-values (
-  seqcontenu.nextval, 
-  'null', 
-  'Photo tempete 10-5-2013', 
-  'photo', 
-  2
-);
+execute ajout_contenu(1,'Martins', 'Jacques' , 
+	'Tempête dans les caïmans', 'null', 'texte');
+execute ajout_contenu(1,'Vioko','Nikita', 
+	'Photo tempete 10-5-2013', 'null', 'photo');
 
-insert into contenus 
-values (
-  seqcontenu.nextval, 
-  'null', 
-  'La conquête des alpagas', 
-  'texte', 
-  1
-);
+execute ajout_contenu(2,'Martins', 'Jacques', 
+	'La conquête des alpagas', 'null','texte');
+execute ajout_contenu(2,'Martins', 'Jacques', 
+	'Plan d''attaque', 'null', 'schéma');
 
-insert into contenus 
-values (
-  seqcontenu.nextval, 
-  'null', 
-  'Plan d''attaque', 
-  'schéma',
-  2
-);
+execute ajout_contenu(3,'Martins', 'Jacques',
+	'Visiter Babel', 'null', 'texte');
+execute ajout_contenu(3,'Rivard', 'Martin', 
+	'Plan de la ville de Babel', 'null', 'plan');
 
-insert into contenus 
-values (
-  seqcontenu.nextval, 
-  'null', 
-  'Visiter Babel', 
-  'texte', 
-  4
-);
-
-insert into contenus 
-values (
-  seqcontenu.nextval, 
-  'null', 
-  'Plan de la ville de Babel', 
-  'plan', 
-  2
-);
-
-insert into contenus 
-values (
-  seqcontenu.nextval, 
-  'null', 
-  'Tendances tongs hiver 2014', 
-  'texte', 
-  2
-);
-
-insert into contenus
-values (
-  seqcontenu.nextval, 
-  'null', 
-  'Tongs adadis-run78', 
-  'photo', 
-  5
-);
-
-insert into contenus
-values (
-  seqcontenu.nextval, 
-  'null', 
-  'Tongs pouletsportif-raponador', 
-  'photo', 
-  5
-);
+execute ajout_contenu(4,'Martins', 'Jacques',
+	'Tendances tongs hiver 2014', 'null','texte');
+execute ajout_contenu(4,'Vioko','Nikita',
+	'Tongs adadis-run78', 'null', 'photo');
+execute ajout_contenu(4,'Vioko','Nikita', 
+	'Tongs pouletsportif-raponador', 'null', 'photo');
 
 
-insert into contenus 
-values (
-  seqcontenu.nextval, 
-  'null', 
-  'Lire l''avenir dans le risotto', 
-  'texte', 
-  3
-);
+execute ajout_contenu(5,'Martins', 'Jacques',
+	'Lire l''avenir dans le risotto', 'null', 'texte');
+execute ajout_contenu(5,'Martins', 'Jacques',
+	'Vladimir Poutine revend son sous-marin nucléaire', 'null','texte');
+execute ajout_contenu(5,'Vioko','Nikita', 
+	'Portrait officiel Russie','null','photo');
 
-insert into contenus 
-values (
-  seqcontenu.nextval, 
-  'null', 
-  'Vladimir Poutine revend son sous-marin nucléaire', 
-  'texte',
-  2
-);
+execute ajout_contenu(6,'Vioko','Nikita', 
+	'Photo sous-marin', 'null','photo');
+execute ajout_contenu(6,'Rivard', 'Martin', , 
+	'Position politicostrategique', 'null','plan');
 
-insert into contenus 
-values (
-  seqcontenu.nextval, 
-  'null', 
-  'Portrait officiel Russie', 
-  'photo', 
-  2
-);
-
-insert into contenus 
-values (
-  seqcontenu.nextval, 
-  'null', 
-  'Photo sous-marin', 
-  'photo', 
-  2
-);
-
-insert into contenus 
-values (
-  seqcontenu.nextval, 
-  'null', 
-  'Position politicostrategique', 
-  'plan', 
-  2
-);
-
-insert into contenus 
-values (
-  seqcontenu.nextval, 
-  'null', 
-  '"J''ai trouvé mon enfant dans un poulet fermier"', 
-  'texte',
-  2
-);
+execute ajout_contenu(7,'Martins', 'Jacques', 
+	'"J''ai trouvé mon enfant dans un poulet fermier"', 'null','texte');

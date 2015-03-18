@@ -6,6 +6,7 @@ CREATE TABLE metiers
   salaire NUMBER(6,2) NOT NULL
 );
 
+create sequence seqtypejournal;
 CREATE TABLE typeJournal
 (
   idType NUMBER(4,0) NOT NULL PRIMARY KEY,
