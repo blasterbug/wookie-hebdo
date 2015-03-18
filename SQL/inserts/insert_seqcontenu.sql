@@ -27,3 +27,12 @@ execute ajout_contenu(7,'Vioko','Nikita', 'Photo sous-marin', 'null','photo');
 execute ajout_contenu(7,'Rivard', 'Martin', 'Position politicostrategique', 'null','plan');
 
 execute ajout_contenu(8,'Martins', 'Jacques', '"J''ai trouvé mon enfant dans un poulet fermier"', 'null','texte');
+
+insert into numeros values (1,2,500,3.50,null,2,SYSDATE);
+insert into compoJournal values (1,2);
+insert into compoJournal values (1,3);
+insert into compoJournal values (1,4);
+insert into compoJournal values (1,5);
+insert into compoJournal values (1,6);
+insert into compoJournal values (1,7);
+insert into compoJournal values (1,8);

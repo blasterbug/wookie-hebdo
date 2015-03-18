@@ -29,10 +29,6 @@ prompt Création des vues
 
 -- Création des triggers
 prompt Création des triggers
-@triggers/trg_check_insert_update_dateRedac.sql
-/
-@triggers/trg_insert_update_dateParu.sql
-/
 @triggers/trg_instead_insert_experts.sql
 /
 @triggers/trg_instead_insert_redacsChef.sql

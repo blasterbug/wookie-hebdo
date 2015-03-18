@@ -53,7 +53,7 @@ CREATE TABLE numeros
   idUne NUMBER(8,0) NOT NULL,
   nbTirage NUMBER(10,0),
   prix NUMBER(6,2),
-  redacChef VARCHAR2(8) NOT NULL,
+  redacChef VARCHAR2(8),
   idType NUMBER(4,0) NOT NULL,
   dateParu DATE,
   CONSTRAINTS CSTR_REDAC_TYPE
