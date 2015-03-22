@@ -1,19 +1,47 @@
 \subsection{Procédures stockées}
-\paragraph{Ajout d'article}{On souhaite simplifier la possibilité d'ajouter un article pour les utilisateurs : ceux-ci ne connaissent pas forcément leur identifiant dans la base de données et certains champs peuvent être remplis automatiquement, tel que celui de date de rédaction.
-...
+
+\paragraph{Ajout d'article}{
+    On souhaite simplifier la possibilité d'ajouter un article pour les utilisateurs : la procédure ne demande qu'un titre et un résumé et remplit avec la date actuelle et l'identifiant issu de la séquence \verb|seqArticle|.
 }
 
-\paragraph{Contenu d'article}{La plupart du temps, un contenu ajouté à la base de données est utilisé dans un article, on a donc créé une procédure qui permet d'ajouter un contenu à un article. Cette procédure a double effet : d'une part ajouter le nouveau contenu à la table et d'autre part associer ce contenu à l'article dans la table d'association
-...
+\paragraph{Ajout de contenu d'article}{
+    La plupart du temps, un contenu ajouté à la base de données est utilisé dans un article, on a donc créé une procédure qui permet d'ajouter un contenu à un article. Cette procédure a un double effet : d'une part ajouter le nouveau contenu à la table et d'autre part associer ce contenu à l'article dans la table d'association.
+    En outre, un contenu requiert l'identifiant de son créateur : au lieu d'entrer celui-ci, la procédure demande le nom et le prénom de ce dernier puis associe l'identifiant correspondant en faisant une jointure avec la table \verb|personnes|.
+}
+
+\paragraph{Ajout de personnes}{
+    On souhaite aussi simplifier l'insertion d'une personne dans la base de données. Pour ce faire, nous créons une procédure \verb|insert_personnes|, qui prend en paramètre les différents attributs de la table \verb|Personnes| (id, nom, prenom, etc). La procédure commence par vérifier que l'id\_metier passé en paramètre existe bien dans la table \verb|Metiers|. Si ce n'est pas le cas, une exception est alors levée. Sinon, le nouvel enregistrement est inséré dans la table \verb|Personnes|.
+
+    Cette procédure est utile pour insérer des nouvelles personnes rapidement et facilement dans la base, mais elle sera aussi utilisée par certains \textit{triggers}. Cela permettra de séparer la logique liée à l'insertion de la logique des \textit{triggers}.
 }
 
 \subsection{Vues de la base de données}
-\paragraph{}{Pour faciliter la visualisation des données dans notre base, nous avons choisit  de mettre en place quelques vues. Elles nous permettront d'avoir accès rapidement à certaines informations sans avoir à utiliser des requêtes complexes.}
 
-\paragraph{Vues liées aux métiers}{La table \verb Metiers  contient une entrée pour chaque métier existant, et est liée par une clé étrangère à la table Personnes, pour associer une personne à son métier. Il est donc intéressant d'avoir accès rapidement à toutes personnes ayant le même métier. 
+\paragraph{}{
+    Pour faciliter la visualisation des données dans notre base, nous avons choisit de mettre en place quelques vues. Elles nous permettent d'avoir accès rapidement à certaines informations sans avoir à utiliser des requêtes complexes.
+}
 
-Pour ce faire, nous créons une vue par métier recensé dans la table \verb Metiers . Chacun d'entre elle contiendra une requête sur la table \verb Personnes  qui sélectionnera les personnes ayant un id\_metier correspondant à l'id du métier géré par la vue. Par exemple, la vue \verb Illustrateurs  sélectionne les personnes ayant un id\_metier égal à six, car c'est l'identifiant associé au métier d'illustrateur.
+\paragraph{Vues des métiers}{
+    La table \verb|Metiers| contient une entrée pour chaque métier existant et est liée par une clé étrangère à la table \verb|personnes| et associe ainsi une personne à son métier. Il pourrait être intéressant d'avoir accès rapidement à toutes personnes ayant le même métier. 
 
-Toutes ces vues sont modifiables, et cela pour plusieurs raisons. En effet, elles ne sélectionnent que des attributs NOT NULL et elles n'opèrent que sur une seule table qui n'est pas utilisé dans une sous-requête.}
+Pour ce faire, nous créons une vue pour chaque métier recensé dans la table \verb|metiers|. Chacune d'entre elle contiendra une requête sur la table \verb|Personnes| qui sélectionnera les personnes ayant un id\_metier correspondant à l'identifiant du métier que représente la vue. Par exemple, la vue \verb|Illustrateurs| regroupe les personnes ayant un id\_metier égal à $6$, car c'est l'identifiant associé au métier d'illustrateur.
+
+Toutes ces vues sont modifiables. En effet, elles ne sélectionnent que des attributs non nuls et elles n'opèrent que sur une seule table qui n'est pas utilisé dans une sous-requête.
+}
+
+\paragraph{Personnes et métiers}{
+    Dans le but de faciliter la recherche des métiers de personnes, on a créé une vue associant les deux. Ainsi, on a une vue \verb|personnes_metiers| qui est une projection des personnes et de leurs métiers. De cette manière, on dispose d'une vue associant les personnes à leur métier. Cette vue permet de faciliter certaines requêtes dans lesquelles on souhaite trouver cette correspondance. \newline
+    La vue est modifiable. En effet, s'agissant d'une simple projection de deux tables, l'insertion de données dans cette dernière est répercutée sur les tables d'origines.
+}
 
 \subsection{Traitements automatiques}
+
+\paragraph{Interactions avec les vues}{
+    Étant donné que nous avons créé une vue par métiers existants, il peut être intéressant pour l'utilisateur d'insérer directement une personne dans la vue correspondant à son métier, ce qui équivaut à insérer la personne dans la table \verb|Personnes| mais avec l'id\_metier correspondant au métier que la vue représente. Pour permettre une telle insertion, nous créons, pour chaque vue liée à un métier, un \textit{trigger} de type INSTEAD OF. Ce dernier se contente d'appeler la procédure \verb|insert_personnes| en lui passant en paramètre les données de la requête ainsi que l'id\_metier correspondant au métier de la vue.
+}
+
+\paragraph{Contraintes d'intégrité}{
+    Nous avons aussi décidé de créer des \textit{triggers} pour vérifier des contraintes d'intégrité lors des insertions et mises à jours dans certaines tables. Nous vérifions donc que, lors de l'insertion ou à la mise à jour d'un article dans la table \verb|Articles| que la date de l'article ne dépasse pas la date d'aujourd'hui. De plus, lors de l'insertion ou la mise à jour d'un numéro dans la table \verb|Numéros|, nous mettons à jour la date de parution.
+
+    Néanmoins, ces \textit{triggers} ne fonctionnent pas car ils causent un problème de table mutante. Une façon de résoudre ce problème est d'utiliser des contraintes à la place des \textit{triggers}. Ces contraintes étant assez simples, l'utilisation de \textit{triggers} pour les vérifier est peu naturelle, les contraintes seraient donc à privilégier.
+}

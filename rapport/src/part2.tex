@@ -2,7 +2,6 @@
 \paragraph{}{Il y a au début une unique table contenant une vingtaine d'attributs. Pour illustrer la redondance et les dépendances fonctionnelles, cet exemple de \textit{tuples} ne sera centré que sur quelques attributs pour des raisons de lisibilité. La figure \ref{bigtableex} présente un aperçu de notre \textit{big table}.}
 
 \begin{figure}
-\label{bigtableex}
     {
 	\centering
     \begin{tabular}{|l|l|l|l|l|l|l|l|}
@@ -17,19 +16,20 @@
         \hline 2 & Manger du sel & 3 & HS & 2 & Texte & Nadine & Redacteur \\ 
         \hline 
     \end{tabular}
+    \label{bigtableex}
     }
 \caption{Exemple de \textit{tuples} dans la \textit{big table} (vue partielle)}
 \end{figure} 
 
-\paragraph{}{On remarque qu'il a une répétition des données relatives au journal ou au contenu : un contenu a toujours les mêmes ID, nom et auteur associé. Les journaux d'un même ID ont leur type en commun, de même pour les IDs des articles et leurs titres. Enfin, les personnes ont toujours le même métier. On peut avoir une perte d'information du fait de cette configuration car si l'on supprime par exemple tous les contenus créés par une personne, on perd les données qui lui sont associées, à savoir son nom, son prénom, son numéro, etc.}
+\paragraph{}{On remarque qu'il a une répétition des données relatives au journal ou au contenu : un contenu a toujours les mêmes ID, nom et auteur associé. Les journaux d'un même ID ont leur type en commun, de même pour les identifiants des articles et leurs titres. Enfin, les personnes ont toujours le même métier. On peut avoir une perte d'information du fait de cette configuration car si l'on supprime par exemple tous les contenus créés par une personne, on perd les données qui lui sont associées, à savoir son nom, son prénom, son numéro, etc.}
 
 \paragraph{}{De ce fait, en prenant en compte tous les attributs nous avons dégagé un ensemble de dépendances fonctionnelles.}
 
 \begin{figure}
-	\label{sch_df}
 	\centering
 	\input{figures/dependances_fonctionnelles_minimales.tex}
 	\caption{Schéma des dépendances fonctionnelles de la base de données}
+	\label{sch_df}
 \end{figure} 
 
 \paragraph{Dépendances fonctionnelles}{Les dépendances fonctionnelles de la figure \ref{sch_df} peuvent être retranscrites de la manière suivante.
@@ -147,16 +147,54 @@ $DF = \{(1),(2),(3), ... ,(8)\}$.
 }    
     
 \begin{enumerate}
-    \item[(1)] $R_1(idMetier, salaireBase, nomMetier), DF_1=\{(7)\}$
-    \item[(2)] $R_{1.1}(idType, nomType), DF_{1.1}=\{(2)\}$
-    \item[(3)] $R_{2.1}(idPers, nomPers, prenom, numTel, idMetier), DF_{2.1}=\{(6)\}$
-    \item[(4)] $R_{3.1}(idContenu, URL, idPers, titreCont, typeCont), DF_{3.1}=\{(5)\}$
-    \item[(5)] $R_{4.1}(idJournal, idUne, nbTirage, prix, redacChef, idType, dateParu), \\DF_{4.1}=\{(4)\}$
-    \item[(6)] $R_{5.1}(idArticle, dateRedac, titreArt, resumeArticle), DF_{5.1}=\{(4)\}$
-    \item[(7)] $R_{5.2}(idArticle, idContenu, idJournal), \\DF_{5.2}=\{(1)\}$
+    \item[(Étape 1)] $R_1(idMetier, salaireBase, nomMetier), DF_1=\{(7)\}\\
+    R_2(idJournal, idContenu, idArticle, titreCont, typeCont, URL, \\
+    dateRedac, titreArt, resumeArticle, idPers, nomPers, numTel, \\
+    prenom, idMetier, dateParu, idUne, nbTirage, prix, redacChef,\\
+    idType, nomType), DF_2 = \{(1),(2),(3),(4),(5),(6),(8)\}$
+    
+    \item[(Étape 2)] $R_{21}(idType, nomType), DF_{21}=\{(2)\}\\
+    R_{22}(idJournal, idContenu, idArticle, titreCont, typeCont, \\
+    URL, dateRedac, titreArt, resumeArticle, idPers, nomPers, \\
+    numTel, prenom, idMetier, dateParu, idUne, nbTirage, \\
+    prix, redacChef,  idType), DF_{22} = \{(1),(3),(4),(5),(6),(8)\}$
+    
+    \item[(Étape 3)] $R_{221}(idPers, nomPers, prenom, numTel, idMetier), DF_{221}=\{(6)\}\\
+    R_{222}(idJournal, idContenu, idArticle, titreCont, typeCont, URL,\\
+    dateRedac, titreArt, resumeArticle, idPers, dateParu, idUne, \\
+    nbTirage, prix, redacChef,  idType), DF_{222} = \{(1),(3),(4),(5),(8)\}$
+    
+    \item[(Étape 4)] $R_{2221}(idContenu, URL, idPers, titreCont, typeCont), DF_{2221}=\{(5)\}\\
+    R_{2222}(idJournal, idContenu, idArticle, dateRedac, titreArt, \\
+    resumeArticle, dateParu, idUne, nbTirage, prix, redacChef,  idType), \\
+    DF_{2222} = \{(1),(3),(4),(8)\}$
+    
+    \item[(Étape 5)] $R_{22221}(idJournal, idUne, nbTirage, prix, redacChef, idType, dateParu),\\
+    DF_{22221}=\{(1)\} \\
+    R_{22222}(idJournal, idContenu, idArticle, dateRedac, titreArt, \\
+    resumeArticle), DF_{22222} = \{(3),(4),(8)\}$
+    
+    \item[(Étape 6)] $R_{222221}(idArticle, dateRedac, titreArt, resumeArticle), DF_{222221}=\{(4)\}$ \\
+    $R_{222222}(idArticle, idContenu, idJournal), DF_{222222}=\{()\}$
 \end{enumerate}
 
+\paragraph{}{On récupère ensuite les feuilles de l'arbre pour obtenir les tables à créer : $R_{2}, R_{22}, R_{222}, R_{2222}, R_{22222}, R_{222221} et R_{222222}$}
+
 \paragraph{Choix du schéma}{
-    Nous venons de voir deux décompositions différentes de notre table de départ. Il faut à présent choisir l'une des deux pour l'exploitation de nos données dans un système de gestion de base de données. \newline
-    Nous choisissons le résultat de l'algorithme de Bernstein car nous avons obtenu une décomposition sans perte d'information, sans perte de dépendances fonctionnelles et en troisième forme normale contrairement au second algorithme. Mais ce choix reste à approfondir en considérant quelles requêtes seront les plus fréquentes dans notre base de données. On se donne un peu plus de temps pour adopter le choix le plus judicieux. 
+    Nous venons de voir deux décompositions différentes de notre table de départ. Il faut à présent choisir l'une des deux pour l'exploitation de nos données dans un système de gestion de base de données.
+    
+    Nous choisissons le résultat de l'algorithme de décomposition car le résultat est sans perte d'information et en troisième forme normale. Il s'approche en outre plus de la réalité de la façon dont on souhaite représenter les informations.
+    
+    Nous avons néanmoins remarqué que cette décomposition posait problème au niveau de la dernière table regroupant les attributs clé : dans notre cas, un numéro est composé d'articles lui-même composé de contenus. Dans le cas ou un article se retrouvait dans plus d'un numéro, on aurait eu une répétition de la composition des articles dans cette table, nous avons donc préféré la diviser en deux : d'une part une table d'association $(idArticle, idContenu)$ et d'autre part une autre table $(idJournal, idArticle)$. 
+    
+    On obtient donc le schéma de base de données représenté sur la figure \ref{schema_db}. Le fait de devoir effectuer cet ajustement indique peut-être une erreur dans la façon dont nous avons relevé nos dépendances fonctionnelles, une mauvaise exécution de l'algorithme de composition, ou une forme normale de niveau insuffisant.
+    
 }
+
+\begin{figure}
+    \centering
+    %\input{figures/tables_schema.tex}
+    \includegraphics[scale=0.5]{figures/tables_schema.png}
+    \caption{Schéma des tables}
+    \label{schema_db}
+\end{figure}

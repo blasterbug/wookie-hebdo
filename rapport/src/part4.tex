@@ -1,12 +1,14 @@
-%% Critique de la base données
-\subsection{Droits d'accès à la base de données}
+%% Critique de la base donn\'{e}es
+\subsection{Droits d'acc\`{e}s \`{a} la base de donn\'{e}es}
 
 \paragraph{}{
-    Comme nous travaillons à trois sur la base de données, il a fallut que les autres membres de l'équipe puissent voir et avoir accès à ce qu'a fait un autre membre. Pour cela, on a jouer avec  les droits d'accès de la base de données Oracle SQL. Pour simplifier la gestion des droits, on a créé toutes les tables sur un même compte, ce dernier attribuera ensuite des rôles précis à d'autres personnes.
+    Parce que nous travaillons \`{a} trois sur la base de donn\'{e}es, il a fallu que les autres membres de l'\'{e}quipe puissent voir et avoir acc\`{e}s \`{a} ce qu'a fait un autre membre. Pour cela, on a jou\'{e} avec les droits d'acc\`{e}s de la base de donn\'{e}es Oracle SQL. Pour simplifier la gestion des droits, on a cr\'{e}\'{e} toutes les tables sur un même compte, ce dernier attribuera ensuite des r\^{o}les pr\'{e}cis aux personnes.
 }
+
 \paragraph{}{
-    Typiquement pour notre projet, Nous avons deux rôles. Le rôle \verb|resp| et \verb|reader|. Un responsable (\verb|resp|) a tous les droits sur les tables du projet alors qu'un lecteur (\verb|reader|) n'a que le droit de consulter les tables. Le code PL/SQL ci-dessous donner un exemple d'accord de droits sur la table \verb|articles| des droits de sélection, mise à jour, insertion et suppression des données pour le rôle \verb|resp| au utilisateurs L3\_3 et L3\_13. L'utilisateur L3\_4 n'a que le droit de consulter la table \verb|articles|.
+    Typiquement pour notre projet, Nous avons deux r\^{o}les. Le r\^{o}le \verb|resp| et \verb|reader|. Un responsable (\verb|resp|) a tous les droits sur les tables du projet alors qu'un lecteur (\verb|reader|) n'a que le droit de consulter les tables. Le code PL/SQL ci-dessous donne un exemple d'accord de droits sur la table \verb|articles| des droits de s\'{e}lection, mise \`{a} jour, insertion et suppression des donn\'{e}es pour le r\^{o}le \verb|resp| au utilisateurs L3\_3 et L3\_13. L'utilisateur L3\_4 n'a que le droit de consulter la table \verb|articles|.
 }
+
 \begin{lstlisting}[frame=single]
 CREATE ROLE resp;
 CREATE ROLE reader;
@@ -19,13 +21,52 @@ GRANT resp TO L3_3, L3_13;
 GRANT reader TO L3_4;
 \end{lstlisting}
 
-\end{document}
+\paragraph{}{
+    On proc\`{e}de de même pour chaque table, \`{a} savoir \verb|contenus|, \verb|metiers|, \verb|numeros|, \verb|personnes| et \verb|typeJournal| ainsi que pour les diff\'{e}rentes vues du projet.
+}
 
 \paragraph{}{
-    On procède de même pour chaque table, à savoir \verb|contenus|, \verb|metiers|, \verb|numeros|, \verb|personnes| et \verb|typeJournal|.
+    Pour am\'{e}liorer l'utilisation des r\^{o}les et se rapprocher encore plus de la r\'{e}alit\'{e}, on pourrait imaginer une vue \verb|personnes| qui serait une s\'{e}lection de la table du même nom sans certain attribut. Comme par exemple, les mots de passe des personnes (en supposant qu'elles en ont un). Ainsi en attribuant uniquement un r\^{o}le \verb|reader| sur cette vue, et en attribuant aucun droit au r\^{o}le \verb|reader| sur la table \verb|personnes|, les utilisateurs qui ont le r\^{o}le \verb|reader| ne peuvent pas voir, d'aucune mani\`{e}re que ce soit, les mots de passe des personnes.
 }
-%Pour pouvoir accéder aux différentes tables, procédures, etc. créé par une pers
+
+\subsection{Optimisation}
+
+\paragraph{}{
+    L'une des optimisations la plus commune sur une base de donn\'{e}es est d'ajouter des indexes sur les attributs des tables sur lesquelles on fait le plus requêtes. En effet, l'indexation de donn\'{e}es permet au SGBD d'organiser et donc d'acc\'{e}der de façon plus efficace \`{a} des donn\'{e}es index\'{e}es. \newline
+    Dans notre cas, la quasi-totalit\'{e} des requêtes s'effectuent sur les cl\'{e}s des tables. Les cl\'{e}s \'{e}tant index\'{e}es par d\'{e}faut dans Oracle, nous n'avons pas eu besoin de demander explicitement au SGBD d'indexer nos tables. Donc, nous n'avons pas cr\'{e}\'{e} d'index. 
+}
 
 \subsection{Atouts}
 
-\subsection{Faiblesses et améliorations}
+\paragraph{S\'{e}curit\'{e}}{
+   La base de donn\'{e}es est s\'{e}curis\'{e}e. En effet, grâce aux r\^{o}les et aux divers droits qui leurs sont attribu\'{e}s, une personnes sens\'{e}e pouvoir lire uniquement les donn\'{e}es, ne pourra jamais les modifier. De même, en cachant certaines tables ou attributs de ses derni\`{e}res, les informations qu'on ne souhaiterais pas rendre publique ne le sont pas. \newline
+   En outre, certains \textit{triggers} et contraintes ( en particuliers les cl\'{e}s \'{e}trang\`{e}res) assurent la coh\'{e}rence des donn\'{e}es stock\'{e}es en base.
+}
+
+\paragraph{Optimis\'{e}e}{
+    Les requêtes travaillant principalement (99\% du temps) sur des donn\'{e}es index\'{e}es, l'interrogation de la base de donn\'{e}es est rapide. De plus, les proc\'{e}dures stock\'{e}es et les \textit{triggers} nous permettent d'automatiser les traitements r\'{e}p\'{e}titifs. Quant aux vues, elles permettent, pour certaines, de r\'{e}aliser des jointures naturelles fréquemment faites.
+}
+
+% paragraphe poubelle
+\paragraph{}{
+    La sch\'{e}ma de la base se d\'{e}composant en plusieurs tables, ainsi, l'ajout d'attributs peut s'y faire ais\'{e}ment. Et il en est de même si on souhaite y ajouter une table suppl\'{e}mentaire. 
+}
+
+\subsection{Faiblesses et am\'{e}liorations}
+
+\paragraph{}{
+    Telle qu'elle est livr\'{e}e, notre base de donn\'{e}es permet d'ajouter du contenu \`{a} des journaux, des utilisateurs ainsi que de consulter son contenu. Ce qui remplit le contrat de base. Mais elle pourrait faire bien plus et \`{a} moindre frais. C'est ce qu'il est expliqu\'{e} ci-dessous.
+}
+
+\paragraph{Connexion des utilisateurs}{
+    Les utilisateurs de notre base de donn\'{e}es poss\`{e}dent un identifiant unique. Cet identifiant sert de cl\'{e} primaire \`{a} la table des utilisateurs. Si on leur ajoute en plus un mot de passe, on pourrait ainsi permettre aux utilisateurs, de se connecter au serveur et ainsi de poster eux-m\^{e}me divers contenus. Cet attribut mot de passe serait bien-sûr cach\'{e} dans la base de donn\'{e}es grâce aux divers droits et r\^{o}les attribués aux utilisateurs.
+}
+
+\paragraph{Gestion des articles et des num\'{e}ros}{
+    Les proc\'{e}dures permettent d'ajouter de nouveaux \'{e}l\'{e}ments de façon simplifi\'{e}e. Les modifications et suppressions restent n\'{e}anmoins fastidieuses. On peut imaginer des proc\'{e}dures et d\'{e}clencheurs suppl\'{e}mentaires permettant une gestion simplifi\'{e}e de ces actions. \newline
+    Par exemple, la suppression d'un article, contenu ou num\'{e}ro r\'{e}f\'{e}renc\'{e} dans une table d'association est impossible : on aurait pu ajouter un \textit{trigger} qui y supprime les lignes contenant l'\'{e}l\'{e}ment que l'on cherche \`{a} supprimer. Les journaux ont pour r\'{e}f\'{e}rence une personne, le r\'{e}dacteur chef : on peut imaginer que dans le cas où l'on supprime cette personne, cet attribut soit effacé ou modifié.
+}
+
+\paragraph{Cohérence}{
+    Pour assurer la cohérence des données dans la base, nous avons ajouter des \textit{triggers} au fur et à mesure que le projet avançait. Or, certains de ces \textit{triggers} peuvent très bien être remplacés par des contraintes sur les tables. Un tel changement optimiserait encore plus la base de données mais nous ne l'avons pas fait car nous nous sommes focaliser sur d'autres points de la base de données.
+}

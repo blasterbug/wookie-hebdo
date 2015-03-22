@@ -8,12 +8,36 @@
 \usepackage{ifpdf}
 \usepackage{hyperref}
 \usepackage{listings}
+%\usepackage{fullpage}
 
 % on utilise du SQL !
-\lstset{language=SQL} 
+\makeatletter
+\newcommand{\lstuppercase}{\uppercase\expandafter{\expandafter\lst@token
+                           \expandafter{\the\lst@token}}}
+\newcommand{\lstlowercase}{\lowercase\expandafter{\expandafter\lst@token
+                           \expandafter{\the\lst@token}}}
+\makeatother
+
+\lstdefinestyle{Oracle}{basicstyle=\ttfamily,
+    keywordstyle=\lstuppercase,
+    emphstyle=\itshape,
+    showstringspaces=false,
+}
+\lstdefinelanguage[Oracle]{SQL}[]{SQL}
+{
+    morekeywords={
+        ACCESS, MOD, NLS_DATE_FORMAT, NVL, REPLACE, SYSDATE,
+        TO_CHAR, TO_NUMBER, TRUNC, TO
+    }
+}
+\lstset{language=[Oracle]SQL,
+        style=Oracle,
+}
 
 \title{Base de données de la rédaction d'un journal}
+
 \author{Théo Delalande-Delarbre \and Thomas Minier \and Benjamin Sientzoff}
+
 \date{\today}
 
 \ifpdf
